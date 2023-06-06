@@ -13,7 +13,7 @@ public:
     virtual int countRegion(Point p, int d)=0;
     virtual int AggregateRegion(Point p, int d)=0;
 
-private:
+private: 
 
 };
 #endif 

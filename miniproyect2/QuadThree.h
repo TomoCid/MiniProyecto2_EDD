@@ -11,6 +11,7 @@ private:
     Point topLeft;
     Point botRight;
     Node *n;
+    vector<Node> nodesC;
     Quad *topLeftTree;
     Quad *topRightTree;
     Quad *botLeftTree;
@@ -23,6 +24,7 @@ public:
         topLeft = Point(0, 0);
         botRight = Point(0, 0);
         n = NULL;
+        //vector<Node> nodesC;   //Trabajando en esto para manejar colisiones 
         topLeftTree = NULL;
         topRightTree = NULL;
         botLeftTree = NULL;
@@ -38,7 +40,7 @@ public:
         topLeft = topL;
         botRight = botR;
     }
-    Node *search(Point);
+    Node *search(Point); //Al final
     bool inBoundary(Point);
 
     int totalPoints();
