@@ -24,7 +24,7 @@ Node::Node(){
 
 int Node::nodeCount = 1;
 
-bool Node::insert(Point _p, int _population) {
+bool Node::insert(Point _p, int _data) {
 
     bool inserted = false; // Bandera para indicar si se realizó una inserción
     if(!inBoundary(_p)){
@@ -34,14 +34,14 @@ bool Node::insert(Point _p, int _population) {
         // Si es una hoja y hay datos, verifica si el punto ya existe
         if (n != NULL) {
         if (n->coords == _p) {
-            n->population = _population;
-            return false; // No se realiza una nueva inserción, solo se actualiza el valor existente
+                n->data = _data;
+                return false; // No se realiza una nueva inserción, solo se actualiza el valor existente
             }
         }
 
         // Si el tamaño mínimo de área se ha alcanzado, inserta el nuevo dato
          if (abs(topLeft.x - botRight.x) <= 1 && abs(topLeft.y - botRight.y) <= 1) {
-            n = new Data(_p, _population);
+            n = new Data(_p, _data);
             inserted = true;
         } else {
             // Si aún es posible subdividir, realiza la subdivisión y luego inserta el dato en el cuadrante correspondiente
@@ -49,15 +49,15 @@ bool Node::insert(Point _p, int _population) {
 
             if ((topLeft.x + botRight.x) / 2 > _p.x) {
                 if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                    inserted = topLeftTree->insert(_p, _population);
+                    inserted = topLeftTree->insert(_p, _data);
                 } else {
-                    inserted = botLeftTree->insert(_p, _population);
+                    inserted = botLeftTree->insert(_p, _data);
                 }
             } else {
                 if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                    inserted = topRightTree->insert(_p, _population);
+                    inserted = topRightTree->insert(_p, _data);
                 } else {
-                    inserted = botRightTree->insert(_p, _population);
+                    inserted = botRightTree->insert(_p, _data);
                 }
             }
         }
@@ -65,15 +65,15 @@ bool Node::insert(Point _p, int _population) {
         // Si no es una hoja, realiza la inserción en el cuadrante correspondiente
         if ((topLeft.x + botRight.x) / 2 > _p.x) {
             if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                inserted = topLeftTree->insert(_p, _population);
+                inserted = topLeftTree->insert(_p, _data);
             } else {
-                inserted = botLeftTree->insert(_p, _population);
+                inserted = botLeftTree->insert(_p, _data);
             }
         } else {
             if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                inserted = topRightTree->insert(_p, _population);
+                inserted = topRightTree->insert(_p, _data);
             } else {
-                inserted = botRightTree->insert(_p, _population);
+                inserted = botRightTree->insert(_p, _data);
             }
         }
     }
@@ -109,7 +109,7 @@ int Node::AggregateRegion(Point p, int d) {
     // Si el nodo es una hoja, verifica cada dato si se encuentra dentro del área especificada
     if (isLeaf()) {
         if (n != NULL && isInsideRegion(n->coords, p, d))
-            aggregate += n->population;
+            aggregate += n->data;
     } else {
         // Si no es una hoja, continúa el recorrido en los cuadrantes relevantes
         if (topLeftTree != nullptr)
@@ -162,22 +162,26 @@ Data* Node::search(Point p) {
 		
 	if ((topLeft.x + botRight.x) / 2 > p.x) {
 		if ((topLeft.y + botRight.y) / 2 > p.y) {
-			if (topLeftTree == NULL)
-				return NULL;
+			if (topLeftTree == NULL){
+                return NULL;
+            }
 			return topLeftTree->search(p);
 		} else {
-			if (botLeftTree == NULL)
-				return NULL;
+			if (botLeftTree == NULL){
+                return NULL;
+            }
 			return botLeftTree->search(p);
 		}
 	} else {
 		if ((topLeft.y + botRight.y) / 2 > p.y) {
-			if (topRightTree == NULL)
-				return NULL;
+			if (topRightTree == NULL){
+                return NULL;
+            }
 			return topRightTree->search(p);
 		} else {
-			if (botRightTree == NULL)
-				return NULL;
+			if (botRightTree == NULL){
+                return NULL;
+            }
 			return botRightTree->search(p);
 		}
 	}

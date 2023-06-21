@@ -24,13 +24,13 @@ struct Point{
 
 struct Data{
     Point coords;
-    int population;
-    Data(Point _coords, int _population){
+    int data;
+    Data(Point _coords, int _data){
         coords = _coords;
-        population = _population;
+        data = _data;
     }
     Data(){
-        population = 0;
+        data = 0;
     }
 };
 
@@ -40,7 +40,6 @@ class Node{
         Point botRight;
 
         Data *n;
-        vector<Data> datas;
 
         Node *topLeftTree;//Primer cuadrante
         Node *topRightTree;//Segundo cuadrante
@@ -55,11 +54,11 @@ class Node{
         Node();
 
         //Metodos principales
-        bool insert(Point _p, int _population);
+        bool insert(Point _p, int _data);
         Data *search(Point _p);
         int numNodes();
         vector<Data> list();
-        int countRegion(Point p, int d); //En testeo, de momento solo retorna 0
+        int countRegion(Point p, int d);
         int AggregateRegion(Point p, int d);
 
         //Metodos auxiliares
