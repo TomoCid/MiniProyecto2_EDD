@@ -10,7 +10,6 @@ class QuadTree{
         Node* root;
         int numPoints;
         
-        
     public:
         QuadTree(int size);
         void insert(Point p, int population);

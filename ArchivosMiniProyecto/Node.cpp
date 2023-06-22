@@ -127,7 +127,7 @@ int Node::AggregateRegion(Point p, int d) {
 vector<Data> Node::list(){
     vector<Data> result;
     // Recopila los datos de este nodo
-    if (n != NULL){
+    if (n != NULL) {
         result.push_back(*n);
     }
     // Recorre los cuatro cuadrantes y recopila los datos de cada uno
