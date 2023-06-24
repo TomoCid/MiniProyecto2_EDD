@@ -84,6 +84,25 @@ int Node::numNodes(){
     return nodeCount;
 }
 
+int Node::countNodes() {
+    int count = 1;  // Inicializar el contador con 1 para contar el nodo actual
+
+    if (topLeftTree != NULL)
+        count += topLeftTree->countNodes();
+
+    if (topRightTree != NULL)
+        count += topRightTree->countNodes();
+
+    if (botLeftTree != NULL)
+        count += botLeftTree->countNodes();
+
+    if (botRightTree != NULL)
+        count += botRightTree->countNodes();
+
+    return count;
+}
+
+
 int Node::countRegion(Point p, int d) {
     int count = 0;
     // Si el nodo es una hoja, verifica cada dato si se encuentra dentro del área especificada

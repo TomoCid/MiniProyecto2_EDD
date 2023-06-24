@@ -66,6 +66,9 @@ class Node{
         bool inBoundary(Point _p);
         void subdivide();
         bool isInsideRegion(Point nodeCoords, Point p, int d);
+
+        //Solución temporal al contador de nodos (O(log n))
+        int countNodes();
 };
 
 #endif

@@ -3,7 +3,7 @@
 using namespace std;
 
 QuadTree::QuadTree(int size){
-    root = new Node(Point(0,0), Point(size-1, size-1));
+    root = new Node(Point(0,0), Point(size, size));
     numPoints = 0;
 }
 
@@ -12,7 +12,7 @@ int QuadTree::totalPoints(){
 }
 
 int QuadTree::totalNodes(){
-    return  root->numNodes();
+    return  root->countNodes(); //return root->numNodes();
 }
 
 void QuadTree::insert(Point p, int data){
