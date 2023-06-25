@@ -26,27 +26,25 @@ int Node::nodeCount = 1;
 
 bool Node::insert(Point _p, int _data) {
 
-    bool inserted = false; // Bandera para indicar si se realizó una inserción
+    bool inserted = false;
+    
     if(!inBoundary(_p)){
         return inserted;
     }
+
     if (isLeaf()) {
-        // Si es una hoja y hay datos, verifica si el punto ya existe
         if (n != NULL) {
-        if (n->coords == _p) {
+            if (n->coords == _p) {
                 n->data = _data;
-                return false; // No se realiza una nueva inserción, solo se actualiza el valor existente
+                return false;
             }
         }
 
-        // Si el tamaño mínimo de área se ha alcanzado, inserta el nuevo dato
          if (abs(topLeft.x - botRight.x) <= 1 && abs(topLeft.y - botRight.y) <= 1) {
             n = new Data(_p, _data);
             inserted = true;
         } else {
-            // Si aún es posible subdividir, realiza la subdivisión y luego inserta el dato en el cuadrante correspondiente
             subdivide();
-
             if ((topLeft.x + botRight.x) / 2 > _p.x) {
                 if ((topLeft.y + botRight.y) / 2 > _p.y) {
                     inserted = topLeftTree->insert(_p, _data);
@@ -62,7 +60,6 @@ bool Node::insert(Point _p, int _data) {
             }
         }
     } else {
-        // Si no es una hoja, realiza la inserción en el cuadrante correspondiente
         if ((topLeft.x + botRight.x) / 2 > _p.x) {
             if ((topLeft.y + botRight.y) / 2 > _p.y) {
                 inserted = topLeftTree->insert(_p, _data);
@@ -77,6 +74,7 @@ bool Node::insert(Point _p, int _data) {
             }
         }
     }
+
     return inserted;
 }
 
@@ -84,33 +82,14 @@ int Node::numNodes(){
     return nodeCount;
 }
 
-int Node::countNodes() {
-    int count = 1;  // Inicializar el contador con 1 para contar el nodo actual
-
-    if (topLeftTree != NULL)
-        count += topLeftTree->countNodes();
-
-    if (topRightTree != NULL)
-        count += topRightTree->countNodes();
-
-    if (botLeftTree != NULL)
-        count += botLeftTree->countNodes();
-
-    if (botRightTree != NULL)
-        count += botRightTree->countNodes();
-
-    return count;
-}
-
-
 int Node::countRegion(Point p, int d) {
+
     int count = 0;
-    // Si el nodo es una hoja, verifica cada dato si se encuentra dentro del área especificada
+
     if (isLeaf()) {
         if (n != NULL && isInsideRegion(n->coords, p, d))
             count++;
     } else {
-        // Si no es una hoja, continúa el recorrido en los cuadrantes relevantes
         if (topLeftTree != nullptr)
             count += topLeftTree->countRegion(p, d);
         if (topRightTree != nullptr)
@@ -120,17 +99,18 @@ int Node::countRegion(Point p, int d) {
         if (botRightTree != nullptr)
             count += botRightTree->countRegion(p, d);
     }
+
     return count;
 }
 
 int Node::AggregateRegion(Point p, int d) {
     int aggregate = 0;
-    // Si el nodo es una hoja, verifica cada dato si se encuentra dentro del área especificada
+
     if (isLeaf()) {
         if (n != NULL && isInsideRegion(n->coords, p, d))
             aggregate += n->data;
     } else {
-        // Si no es una hoja, continúa el recorrido en los cuadrantes relevantes
+
         if (topLeftTree != nullptr)
             aggregate += topLeftTree->AggregateRegion(p, d);
         if (topRightTree != nullptr)
@@ -145,11 +125,11 @@ int Node::AggregateRegion(Point p, int d) {
 
 vector<Data> Node::list(){
     vector<Data> result;
-    // Recopila los datos de este nodo
+
     if (n != NULL) {
         result.push_back(*n);
     }
-    // Recorre los cuatro cuadrantes y recopila los datos de cada uno
+
     if (topLeftTree != nullptr) {
         vector<Data> tlData = topLeftTree->list();
         result.insert(result.end(), tlData.begin(), tlData.end());
@@ -170,7 +150,7 @@ vector<Data> Node::list(){
 }
 
 Data* Node::search(Point p) {
-    
+
 	if (!inBoundary(p)){
         return NULL;
     }
@@ -216,20 +196,20 @@ bool Node::inBoundary(Point p) {
 }
 
 void Node::subdivide() {
-    // Obtiene los puntos medios de los límites actuales del nodo
+
     int midX = (topLeft.x + botRight.x) / 2;
     int midY = (topLeft.y + botRight.y) / 2;
 
-    // Crea los cuatro nuevos nodos para la subdivisión
     topLeftTree = new Node(topLeft, Point(midX, midY));
     topRightTree = new Node(Point(midX, topLeft.y), Point(botRight.x, midY));
     botLeftTree = new Node(Point(topLeft.x, midY), Point(midX, botRight.y));
     botRightTree = new Node(Point(midX, midY), botRight);
 
-    nodeCount += 4; // Incrementa el contador de nodos en 4 debido a la subdivisión
+    nodeCount += 4;
 }
 
 bool Node::isInsideRegion(Point nodeCoords, Point p, int d) {
+
     int left = p.x - d;
     int right = p.x + d;
     int top = p.y + d;

@@ -9,26 +9,32 @@ using namespace std;
 struct Point{
     int x;
     int y;
+
     Point(int _x, int _y){
         x=_x;
         y=_y;
     }
+
     Point(){
         x=0;
         y=0;
     }
+
     bool operator==(const Point& other) const {
         return (x == other.x) && (y == other.y);
     }
 };
 
 struct Data{
+
     Point coords;
     int data;
+
     Data(Point _coords, int _data){
         coords = _coords;
         data = _data;
     }
+
     Data(){
         data = 0;
     }
@@ -66,9 +72,6 @@ class Node{
         bool inBoundary(Point _p);
         void subdivide();
         bool isInsideRegion(Point nodeCoords, Point p, int d);
-
-        //Solución temporal al contador de nodos (O(log n))
-        int countNodes();
 };
 
 #endif

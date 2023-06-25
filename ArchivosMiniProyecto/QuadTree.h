@@ -12,10 +12,11 @@ class QuadTree{
         
     public:
         QuadTree(int size);
+
         void insert(Point p, int population);
         int totalPoints();
         int totalNodes();
-        void search(Point p);
+        void search(Point p);//Eliminar
         vector<Data> list();
         int countRegion(Point p, int d);
         int AggregateRegion(Point p, int d);

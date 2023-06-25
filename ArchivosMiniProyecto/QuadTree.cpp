@@ -12,7 +12,7 @@ int QuadTree::totalPoints(){
 }
 
 int QuadTree::totalNodes(){
-    return  root->countNodes(); //return root->numNodes();
+    return root->numNodes();
 }
 
 void QuadTree::insert(Point p, int data){
@@ -21,6 +21,7 @@ void QuadTree::insert(Point p, int data){
     }
 }
 
+//Eliminar
 void QuadTree::search(Point p){
     if(root->search(p)!=NULL)
         cout<<"DATO BUSCADO:"<<root->search(p)->data<<endl;
