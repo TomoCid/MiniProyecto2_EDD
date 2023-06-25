@@ -15,16 +15,10 @@ int QuadTree::totalNodes(){
     return root->numNodes();
 }
 
-void QuadTree::insert(Point p, int data){
-    if(root->insert(p,data)){
+void QuadTree::insert(Point p, int data, string cityname, string country){
+    if(root->insert(p, data, cityname, country)){
         numPoints++;
     }
-}
-
-//Eliminar
-void QuadTree::search(Point p){
-    if(root->search(p)!=NULL)
-        cout<<"DATO BUSCADO:"<<root->search(p)->data<<endl;
 }
 
 vector<Data> QuadTree::list(){

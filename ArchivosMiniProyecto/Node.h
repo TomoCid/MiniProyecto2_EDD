@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -33,10 +34,14 @@ struct Data{
     Point originalCoords;
     Point coords;
     int data;
+    string cityname;
+    string country;
 
-    Data(Point _coords, int _data){
+    Data(Point _coords, int _data, string _cityname, string _country){
         coords = _coords;
         data = _data;
+        cityname = _cityname;
+        country = _country;
         originalCoords.originalX = (double(coords.x) / pow(10, 4))- 90;
         originalCoords.originalY = (double(coords.y) / pow(10, 4))- 180;
     }
@@ -66,8 +71,7 @@ class Node{
         Node();
 
         //Metodos principales
-        bool insert(Point _p, int _data);
-        Data *search(Point _p);
+        bool insert(Point _p, int _data, string cityname, string country);
         int numNodes();
         vector<Data> list();
         int countRegion(Point p, int d);

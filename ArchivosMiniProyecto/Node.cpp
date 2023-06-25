@@ -24,7 +24,7 @@ Node::Node(){
 
 int Node::nodeCount = 1;
 
-bool Node::insert(Point _p, int _data) {
+bool Node::insert(Point _p, int _data, string _cityName, string _country) {
 
     bool inserted = false;
     
@@ -36,41 +36,43 @@ bool Node::insert(Point _p, int _data) {
         if (n != NULL) {
             if (n->coords == _p) {
                 n->data = _data;
+                n->cityname = _cityName;
+                n->country = _country;
                 return false;
             }
         }
 
          if (abs(topLeft.x - botRight.x) <= 1 && abs(topLeft.y - botRight.y) <= 1) {
-            n = new Data(_p, _data);
+            n = new Data(_p, _data, _cityName,_country);
             inserted = true;
         } else {
             subdivide();
             if ((topLeft.x + botRight.x) / 2 > _p.x) {
                 if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                    inserted = topLeftTree->insert(_p, _data);
+                    inserted = topLeftTree->insert(_p, _data, _cityName,_country);
                 } else {
-                    inserted = botLeftTree->insert(_p, _data);
+                    inserted = botLeftTree->insert(_p, _data, _cityName,_country);
                 }
             } else {
                 if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                    inserted = topRightTree->insert(_p, _data);
+                    inserted = topRightTree->insert(_p, _data, _cityName,_country);
                 } else {
-                    inserted = botRightTree->insert(_p, _data);
+                    inserted = botRightTree->insert(_p, _data, _cityName,_country);
                 }
             }
         }
     } else {
         if ((topLeft.x + botRight.x) / 2 > _p.x) {
             if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                inserted = topLeftTree->insert(_p, _data);
+                inserted = topLeftTree->insert(_p, _data, _cityName, _country);
             } else {
-                inserted = botLeftTree->insert(_p, _data);
+                inserted = botLeftTree->insert(_p, _data, _cityName, _country);
             }
         } else {
             if ((topLeft.y + botRight.y) / 2 > _p.y) {
-                inserted = topRightTree->insert(_p, _data);
+                inserted = topRightTree->insert(_p, _data, _cityName, _country);
             } else {
-                inserted = botRightTree->insert(_p, _data);
+                inserted = botRightTree->insert(_p, _data, _cityName, _country);
             }
         }
     }
@@ -87,19 +89,23 @@ int Node::countRegion(Point p, int d) {
     int count = 0;
 
     if (isLeaf()) {
-        if (n != NULL && isInsideRegion(n->coords, p, d))
+        if (n != NULL && isInsideRegion(n->coords, p, d)){
             count++;
+        }
     } else {
-        if (topLeftTree != nullptr)
+        if (topLeftTree != nullptr){
             count += topLeftTree->countRegion(p, d);
-        if (topRightTree != nullptr)
+        }
+        if (topRightTree != nullptr){
             count += topRightTree->countRegion(p, d);
-        if (botLeftTree != nullptr)
+        } 
+        if (botLeftTree != nullptr){
             count += botLeftTree->countRegion(p, d);
-        if (botRightTree != nullptr)
+        }  
+        if (botRightTree != nullptr){
             count += botRightTree->countRegion(p, d);
+        }
     }
-
     return count;
 }
 
@@ -107,18 +113,22 @@ long long Node::AggregateRegion(Point p, int d) {
     long long aggregate = 0;
 
     if (isLeaf()) {
-        if (n != NULL && isInsideRegion(n->coords, p, d))
+        if (n != NULL && isInsideRegion(n->coords, p, d)){
             aggregate += n->data;
+        }
     } else {
-
-        if (topLeftTree != nullptr)
+        if (topLeftTree != nullptr){
             aggregate += topLeftTree->AggregateRegion(p, d);
-        if (topRightTree != nullptr)
+        }
+        if (topRightTree != nullptr){
             aggregate += topRightTree->AggregateRegion(p, d);
-        if (botLeftTree != nullptr)
+        }
+        if (botLeftTree != nullptr){
             aggregate += botLeftTree->AggregateRegion(p, d);
-        if (botRightTree != nullptr)
+        }
+        if (botRightTree != nullptr){
             aggregate += botRightTree->AggregateRegion(p, d);
+        }
     }
     return aggregate;
 }
@@ -149,43 +159,6 @@ vector<Data> Node::list(){
     return result;
 }
 
-Data* Node::search(Point p) {
-
-	if (!inBoundary(p)){
-        return NULL;
-    }
-		
-	if (n != NULL) {
-        return n;
-    }
-		
-	if ((topLeft.x + botRight.x) / 2 > p.x) {
-		if ((topLeft.y + botRight.y) / 2 > p.y) {
-			if (topLeftTree == NULL){
-                return NULL;
-            }
-			return topLeftTree->search(p);
-		} else {
-			if (botLeftTree == NULL){
-                return NULL;
-            }
-			return botLeftTree->search(p);
-		}
-	} else {
-		if ((topLeft.y + botRight.y) / 2 > p.y) {
-			if (topRightTree == NULL){
-                return NULL;
-            }
-			return topRightTree->search(p);
-		} else {
-			if (botRightTree == NULL){
-                return NULL;
-            }
-			return botRightTree->search(p);
-		}
-	}
-}
-
 //Metodos auxiliares
 bool Node::isLeaf() {
     return (topLeftTree == NULL && topRightTree == NULL && botLeftTree == NULL && botRightTree == NULL);
@@ -204,12 +177,10 @@ void Node::subdivide() {
     topRightTree = new Node(Point(midX, topLeft.y), Point(botRight.x, midY));
     botLeftTree = new Node(Point(topLeft.x, midY), Point(midX, botRight.y));
     botRightTree = new Node(Point(midX, midY), botRight);
-
     nodeCount += 4;
 }
 
 bool Node::isInsideRegion(Point nodeCoords, Point p, int d) {
-
     int left = p.x - d;
     int right = p.x + d;
     int top = p.y + d;
