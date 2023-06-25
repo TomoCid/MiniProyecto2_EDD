@@ -103,8 +103,8 @@ int Node::countRegion(Point p, int d) {
     return count;
 }
 
-int Node::AggregateRegion(Point p, int d) {
-    int aggregate = 0;
+long long Node::AggregateRegion(Point p, int d) {
+    long long aggregate = 0;
 
     if (isLeaf()) {
         if (n != NULL && isInsideRegion(n->coords, p, d))

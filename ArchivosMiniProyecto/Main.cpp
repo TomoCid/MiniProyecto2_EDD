@@ -2,6 +2,7 @@
 #include <chrono>
 #include <sstream>
 #include <fstream>
+#include <time.h>
 
 
 using namespace std;
@@ -50,20 +51,29 @@ vector<Data> File(int numDatas) {
 }
 
 int main(){
-    int numOps = 10;
-    int tableSize = 1000000000;
-    int numTest = 1;
+	srand(time(NULL));
+
+    int numOps = 3173647;
+    int tableSize = 360 * pow(10,4); //Coordenada más lejana
+    int numTest = 20;
+	int zone = 100;
     vector<Data> dataBase = File(numOps);
     QuadTree test(tableSize);
 
     cout<<"Info Test: " << tableSize << " tamaño tabla / " << numOps << " Nro. operaciones" << endl;
-    
+    cout << "Área de búsqueda: " << zone << " x " << zone << endl;
+
+	for(int i = 0; i<numOps; i++){  
+        test.insert(dataBase[i].coords, dataBase[i].data);
+    }
+
     chrono::high_resolution_clock::time_point inicio_1, final_1;
     double tiempo_final = 0;
     for (int i = 0; i < numTest; i++) {
         inicio_1 = chrono::high_resolution_clock::now();
-        for(int i = 0; i<numOps; i++){  
-            test.insert(dataBase[i].coords, dataBase[i].data);
+        for(int i = 0; i<1; i++){  
+            cout << test.AggregateRegion(Point((90 + (rand() % 90)) * (pow(10,4)), (180 + (rand() % 180)) * (pow(10,4))), zone) << endl;
+			cout << test.countRegion(Point((90 + (rand() % 90)) * (pow(10,4)), (180 + (rand() % 180)) * (pow(10,4))), zone) << endl;
         }
 		final_1 = chrono::high_resolution_clock::now();
         auto qt_time_1 = chrono::duration_cast<chrono::microseconds>(final_1 - inicio_1).count();
@@ -71,10 +81,11 @@ int main(){
 	}
     double tiempo_promedio = tiempo_final / numTest;
     cout << "Tiempo promedio de inserción en MapB: " << tiempo_promedio << " us" << endl;
-
-    cout << test.totalNodes() << endl;
+    
+	/*
+	cout << test.totalNodes() << endl;
     cout << test.totalPoints() << endl;
-
+	
     vector<Data> dataList = test.list();
     for (const auto& data : dataList) {
 	cout << "Coordenadas originales: (" << data.originalCoords.originalX << ", " << data.originalCoords.originalY << ")" << endl;
@@ -82,5 +93,7 @@ int main(){
     cout << "Población: " << data.data << endl;
     cout << endl;
     }
+	*/
+
     return 0;
 }

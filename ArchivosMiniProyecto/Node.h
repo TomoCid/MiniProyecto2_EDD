@@ -71,7 +71,7 @@ class Node{
         int numNodes();
         vector<Data> list();
         int countRegion(Point p, int d);
-        int AggregateRegion(Point p, int d);
+        long long AggregateRegion(Point p, int d);
 
         //Metodos auxiliares
         bool isLeaf();

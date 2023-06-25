@@ -19,7 +19,7 @@ class QuadTree{
         void search(Point p);//Eliminar
         vector<Data> list();
         int countRegion(Point p, int d);
-        int AggregateRegion(Point p, int d);
+        long long AggregateRegion(Point p, int d);
 };
 
 #endif

@@ -35,7 +35,7 @@ int QuadTree::countRegion(Point p, int d) {
     return root->countRegion(p, d);
 }
 
-int QuadTree::AggregateRegion(Point p, int d) {
+long long QuadTree::AggregateRegion(Point p, int d) {
     return root->AggregateRegion(p, d);
 }
 
