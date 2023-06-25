@@ -3,13 +3,15 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
 struct Point{
     int x;
     int y;
-
+    double originalX;
+    double originalY;
     Point(int _x, int _y){
         x=_x;
         y=_y;
@@ -18,6 +20,8 @@ struct Point{
     Point(){
         x=0;
         y=0;
+        originalX = 0.0;
+        originalY = 0.0;
     }
 
     bool operator==(const Point& other) const {
@@ -26,13 +30,15 @@ struct Point{
 };
 
 struct Data{
-
+    Point originalCoords;
     Point coords;
     int data;
 
     Data(Point _coords, int _data){
         coords = _coords;
         data = _data;
+        originalCoords.originalX = (double(coords.x) / pow(10, 4))- 90;
+        originalCoords.originalY = (double(coords.y) / pow(10, 4))- 180;
     }
 
     Data(){
