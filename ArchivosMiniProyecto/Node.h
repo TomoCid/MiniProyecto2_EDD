@@ -11,8 +11,8 @@ using namespace std;
 struct Point{
     int x;
     int y;
-    double originalX;
-    double originalY;
+    double geoX;
+    double geoY;
     Point(int _x, int _y){
         x=_x;
         y=_y;
@@ -21,8 +21,8 @@ struct Point{
     Point(){
         x=0;
         y=0;
-        originalX = 0.0;
-        originalY = 0.0;
+        geoX = 0.0;
+        geoY = 0.0;
     }
 
     bool operator==(const Point& other) const {
@@ -31,7 +31,7 @@ struct Point{
 };
 
 struct Data{
-    Point originalCoords;
+    Point geoCoords;
     Point coords;
     int data;
     string cityname;
@@ -42,8 +42,8 @@ struct Data{
         data = _data;
         cityname = _cityname;
         country = _country;
-        originalCoords.originalX = (double(coords.x) / pow(10, 4))- 90;
-        originalCoords.originalY = (double(coords.y) / pow(10, 4))- 180;
+        geoCoords.geoX = (double(coords.x) / pow(10, 4))- 90;
+        geoCoords.geoY = (double(coords.y) / pow(10, 4))- 180;
     }
 
     Data(){

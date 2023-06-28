@@ -89,8 +89,8 @@ int main(){
 	
     vector<Data> dataList = test.list();
     for (const auto& data : dataList) {
-		cout << "Coordenadas originales: (" << data.originalCoords.originalX << ", " << data.originalCoords.originalY << ")" << endl;
-    	cout << "Coordenadas transformadas: (" << data.coords.x << ", " << data.coords.y << ")" << endl;
+		cout << "Coordenadas geograficas: (" << data.geoCoords.geoX << ", " << data.geoCoords.geoY << ")" << endl;
+    	cout << "Coordenadas ingresadas: (" << data.coords.x << ", " << data.coords.y << ")" << endl;
     	cout << "Población: " << data.data << endl;
 		cout << "Nombre ciudad: " << data.cityname << endl;
 		cout << "Nombre pais: " << data.country << endl;
